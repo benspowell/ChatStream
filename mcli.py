@@ -7,12 +7,18 @@ count = 0
 HOST = sys.argv[1] #raw_input("chat room server ip: ")    # The remote host
 PORT = 1270             # The same port as used by the server
 
+os.system("clear")
+print 'logging in to chat room.'
+print 'usernames and passwords should be only alphanumeric characters.'
+print 'enter existing or new username/password.\n'
+username = raw_input('  username: ')
+password = raw_input('  password: ')
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.connect((HOST, PORT))
 inputs = [serv, sys.stdin]
 
-
+serv.sendall(username+"/"+password)
 
 while inputs:
     readable, writable, exceptional = select.select(inputs, inputs, inputs)
@@ -22,8 +28,7 @@ while inputs:
             os.system("clear")
             print data
 	elif s is sys.stdin:
-            command_string = raw_input('>')
-            msgToSend = command_string
-            serv.sendall(msgToSend)
+            msg = raw_input()
+            serv.sendall(msg)
 
 s.close()
