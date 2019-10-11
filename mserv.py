@@ -15,6 +15,10 @@ server.listen(5)
 inputs = [server, sys.stdin]
 newData = 0
 
+message_buffer = "------------------------------------------\n"
+online_string=""
+output=""
+
 os.system("clear")
 print '\nWelcome to the chat room server!\n'
 print 'your IP:',myIP
@@ -24,16 +28,19 @@ while inputs:
     readable, writable, exceptional = select.select(inputs, inputs, inputs)
     for s in readable:
         if s is server:
-            print "received a connect request from a client......"
             connection, client_address = s.accept()
-            if connections == 0:
-                connections = 1
-                connection1 = connection
-            else:
-                connection2 = connection
-            print "client connected! ip is {}".format (client_address)
+            print "client connected! address is {}".format (client_address)
             connection.setblocking(0)
             inputs.append(connection)
+            socket_list.append(connection)
+            online_string = 'online now: '
+
+            for cli in socket_list:
+                online_string += 'person '
+            output = online_string + '\n' + message_buffer
+            for cli in socket_list:
+                cli.send(output)
+
         elif s is sys.stdin:
             newData = 1;
             command_string = raw_input()
@@ -43,15 +50,20 @@ while inputs:
             data = s.recv(1024)
             if data:
 
+                    
                 # if this is the first time i've seen this socket
                 # i want to add it to an array called 'outputs',
                 # i use outputs to allow me to queue data to send
 #                s.send ("echo response => " + data)
-                print "read " + data
+                print "recieved message: " + data
+                message_buffer += data + '\n'
+		output = online_string + '\n' + message_buffer
                 if newData == 1:
                     data = command_string
                     newData = 0
-                s.send ("echo response => " + data)
+                for cli in socket_list:
+                    cli.send(output)
+
 
     for s in exceptional:
         inputs.remove(s)

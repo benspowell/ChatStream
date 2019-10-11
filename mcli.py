@@ -1,4 +1,4 @@
-import select, socket, sys, Queue
+import select, socket, sys, Queue, os
 # Echo client program
 import socket
 import time
@@ -8,20 +8,22 @@ HOST = sys.argv[1] #raw_input("chat room server ip: ")    # The remote host
 PORT = 1270             # The same port as used by the server
 
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((HOST, PORT))
-inputs = [s, sys.stdin]
-command_string = raw_input("enter string for me to keep echoing to server -> ")
+serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serv.connect((HOST, PORT))
+inputs = [serv, sys.stdin]
 
 
 
-while 1:
-    count = count+1
-    msgToSend = command_string
-    s.sendall(msgToSend)
-    data = s.recv(1024)
-    print 'Received', repr(data)
-    time.sleep(5)
+while inputs:
+    readable, writable, exceptional = select.select(inputs, inputs, inputs)
+    for s in readable:
+        if s is serv:
+            data = s.recv(1024)
+            os.system("clear")
+            print data
+	elif s is sys.stdin:
+            command_string = raw_input('>')
+            msgToSend = command_string
+            serv.sendall(msgToSend)
 
 s.close()
-
