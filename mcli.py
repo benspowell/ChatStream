@@ -9,10 +9,15 @@ PORT = 1270             # The same port as used by the server
 
 os.system("clear")
 print 'logging in to chat room.'
-print 'usernames and passwords should be only alphanumeric characters.'
-print 'enter existing or new username/password.\n'
-username = raw_input('  username: ')
-password = raw_input('  password: ')
+
+username="!@#$"
+password="!@#$"
+
+while ((not username.isalnum()) or (not password.isalnum())):
+    print 'usernames and passwords should be only alphanumeric characters.'
+    print 'enter existing or new username/password.\n'
+    username = raw_input('  username: ')
+    password = raw_input('  password: ')
 
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serv.connect((HOST, PORT))
