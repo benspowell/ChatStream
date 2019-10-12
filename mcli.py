@@ -5,11 +5,11 @@ import time
 
 count = 0
 HOST = sys.argv[1] #raw_input("chat room server ip: ")    # The remote host
-PORT = 1270             # The same port as used by the server
+PORT = 1998             # The same port as used by the server
 
 os.system("clear")
 print 'logging in to chat room...'
-print '  enter existing or new username/password.\n'
+print '  enter existing or new username and password.\n'
 
 username=" "
 password=" "

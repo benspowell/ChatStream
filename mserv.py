@@ -11,7 +11,7 @@ file.close()
 myIP = socket.gethostbyname(socket.gethostname())
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setblocking(0)
-server.bind((myIP, 1270))
+server.bind((myIP, 1998))
 server.listen(5)
 inputs = [server, sys.stdin]
 
@@ -110,7 +110,7 @@ while inputs:
                     if not shh: print "recieved message from " + online_users[s] + ": " + data
                     message_buffer += online_users[s] + "> " + data + '\n'
 
-                online_string = 'CHAT   |    to logout, type: logout \n ------------------------------------------\nonline now: '
+                online_string = 'Welcome! To logout, type: logout \n------------------------------------------\nonline now: '
                 for user in online_users.keys():
                     online_string += online_users[user] + " "
                 output = online_string + '\n' + message_buffer
