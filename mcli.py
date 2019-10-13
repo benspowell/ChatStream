@@ -3,7 +3,6 @@ import select, socket, sys, Queue, os
 import socket
 import time
 
-count = 0
 HOST = sys.argv[1] #raw_input("chat room server ip: ")    # The remote host
 PORT = 1998             # The same port as used by the server
 
