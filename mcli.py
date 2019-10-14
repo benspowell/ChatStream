@@ -28,7 +28,7 @@ while inputs:
     readable, writable, exceptional = select.select(inputs, inputs, inputs)
     for s in readable:
         if s is serv:
-            data = s.recv(1024)
+            data = s.recv(8192)
             if data: 
                 os.system("clear")
                 print data
